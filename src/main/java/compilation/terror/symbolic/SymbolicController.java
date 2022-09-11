@@ -1,12 +1,17 @@
 package compilation.terror.symbolic;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.MotionBlur;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
@@ -16,7 +21,7 @@ public class SymbolicController implements Initializable {
     @FXML
     private Button buttonBrush;
     @FXML
-    private Button buttonEraser;
+    private ToggleButton buttonEraser;
     @FXML
     private Button buttonClear;
 
@@ -34,6 +39,18 @@ public class SymbolicController implements Initializable {
 
     MotionBlur motionBlur = new MotionBlur();
 
+    //text editor
+    @FXML
+    private TextArea textEditor;
+    @FXML
+    private Button buttonCopy;
+    @FXML
+    private Button buttonSelectedCopy;
+    @FXML
+    private Button buttonTextDelete;
+    @FXML
+    private Button buttonExit;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         brushTool = canvas.getGraphicsContext2D();
@@ -41,6 +58,10 @@ public class SymbolicController implements Initializable {
         buttonBrush.setOnAction(e -> brushSelected());
         buttonEraser.setOnAction(e -> eraserSelected());
         buttonClear.setOnAction(e -> clearTheCanvus());
+        buttonCopy.setOnAction(e -> copyText());
+        buttonSelectedCopy.setOnAction(e -> copySelectedText());
+        buttonTextDelete.setOnAction(e -> { textEditor.clear(); });
+        buttonExit.setOnAction(e -> { Platform.exit(); });
         canvas.setOnMousePressed(e -> {
             if (!isEraserSelected && isBrushSelected && !canDraw) {
                 double x = e.getX() - 17.5;
@@ -103,5 +124,21 @@ public class SymbolicController implements Initializable {
     }
     void eraserSelected() {
         isEraserSelected ^= true;
+    }
+
+    void copyText() {
+        String myText = textEditor.getText().toString();
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(myText);
+        clipboard.setContent(content);
+    }
+
+    void copySelectedText() {
+        String myText = textEditor.getSelectedText().toString();
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(myText);
+        clipboard.setContent(content);
     }
 }
