@@ -121,9 +121,11 @@ public class SymbolicController implements Initializable {
         clearTheCanvus();
         isBrushSelected = true;
         isEraserSelected = false;
+        buttonEraser.setSelected(false);
     }
     void eraserSelected() {
         isEraserSelected ^= true;
+        buttonEraser.setSelected((isEraserSelected));
     }
 
     void copyText() {
