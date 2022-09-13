@@ -1,20 +1,27 @@
 package compilation.terror.symbolic;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.MotionBlur;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.paint.Color;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.ResourceBundle;
 
 public class SymbolicController implements Initializable {
@@ -34,7 +41,7 @@ public class SymbolicController implements Initializable {
     double eraserStrokeWidth = 10.0;
     boolean canDraw;
 
-    double boundaryX, boundaryY;
+    double boundaryX, rectX, boundaryY, rectY;
     double boundaryRangeX, boundaryRangeY;
 
     MotionBlur motionBlur = new MotionBlur();
@@ -51,6 +58,9 @@ public class SymbolicController implements Initializable {
     @FXML
     private Button buttonExit;
 
+    @FXML
+    private Button buttonConvert;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         brushTool = canvas.getGraphicsContext2D();
@@ -62,6 +72,13 @@ public class SymbolicController implements Initializable {
         buttonSelectedCopy.setOnAction(e -> copySelectedText());
         buttonTextDelete.setOnAction(e -> { textEditor.clear(); });
         buttonExit.setOnAction(e -> { Platform.exit(); });
+        buttonConvert.setOnAction(e -> {
+            try {
+                startConversion();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         canvas.setOnMousePressed(e -> {
             if (!isEraserSelected && isBrushSelected && !canDraw) {
                 double x = e.getX() - 17.5;
@@ -70,6 +87,10 @@ public class SymbolicController implements Initializable {
                 brushTool.strokeRect(x, y, 70.0, 100.0);
                 boundaryX = x + brushStrokeWidth;
                 boundaryY = y + brushStrokeWidth;
+                rectX = x; rectY = y;
+                System.out.println("rect");
+                System.out.println(x + " " + y);
+                System.out.println(boundaryX + " " + boundaryY);
                 boundaryRangeX = x + 70.0 - brushStrokeWidth;
                 boundaryRangeY = y + 100.0 - brushStrokeWidth;
             }
@@ -142,5 +163,21 @@ public class SymbolicController implements Initializable {
         final ClipboardContent content = new ClipboardContent();
         content.putString(myText);
         clipboard.setContent(content);
+    }
+
+    void startConversion() throws IOException {
+        System.out.println(canvas.getLayoutX() + " " + canvas.getLayoutY());
+        System.out.println(boundaryX + " " + boundaryY);
+        takeSnapShot();
+    }
+
+    void takeSnapShot() throws IOException {
+        WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
+        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", new File("pic.png"));
+        File imageFile = new File("D:/Development/Projects/Symbolic/pic.png");
+        BufferedImage bufferedImage = ImageIO.read(imageFile);
+        BufferedImage croppedImage = bufferedImage.getSubimage((int)(rectX), (int)(rectY), 71, 101);
+        File pathFile = new File("D:/Development/Projects/Symbolic/image-crop.jpg");
+        ImageIO.write(croppedImage, "png", pathFile);
     }
 }
