@@ -205,6 +205,8 @@ public class ArtboardController implements Initializable {
     void clearTheCanvus() {
         isBrushSelected = false;
         canDraw = false;
+        isEraserSelected = false;
+        buttonEraser.setSelected(false);
         brushTool.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         brushTool.setFill(Color.WHITE);
         brushTool.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
