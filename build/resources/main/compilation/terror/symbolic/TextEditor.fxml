@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane prefHeight="370.0" prefWidth="400.0" style="-fx-background-color: F5F5F5;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="compilation.terror.symbolic.TextEditorController">
+   <top>
+      <VBox prefHeight="20.0" prefWidth="400.0" style="-fx-background-color: #6970E3;" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Text Editor" textFill="WHITE">
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </top>
+   <right>
+      <VBox alignment="CENTER" prefHeight="330.0" prefWidth="0.0" spacing="2.0" stylesheets="@Artboard.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="buttonCopy" mnemonicParsing="false" prefHeight="54.0" prefWidth="2.0">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="remixal-file-copy-fill" iconSize="30" />
+               </graphic>
+            </Button>
+            <Button fx:id="buttonSelectedCopy" mnemonicParsing="false" prefHeight="54.0" prefWidth="70.0">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="remixal-file-copy-2-line" iconSize="30" />
+               </graphic>
+            </Button>
+            <Button fx:id="buttonTextDelete" mnemonicParsing="false" prefHeight="54.0" prefWidth="70.0">
+               <graphic>
+                  <FontIcon iconColor="WHITE" iconLiteral="remixal-delete-back-2-line" iconSize="30" />
+               </graphic>
+            </Button>
+         </children>
+         <BorderPane.margin>
+            <Insets right="5.0" />
+         </BorderPane.margin>
+      </VBox>
+   </right>
+   <bottom>
+      <HBox prefHeight="20.0" prefWidth="400.0" style="-fx-background-color: #6970E3;" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Symbolic" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="0.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="buttonExit" mnemonicParsing="false" prefHeight="24.0" prefWidth="19.0" style="-fx-background-color: #6970E3;" textFill="WHITE">
+                     <graphic>
+                        <FontIcon iconColor="WHITE" iconLiteral="remixmz-shut-down-line" iconSize="14" />
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <Pane prefHeight="297.0" prefWidth="319.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextArea fx:id="textEditor" layoutX="15.0" layoutY="15.0" prefHeight="297.0" prefWidth="319.0" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
